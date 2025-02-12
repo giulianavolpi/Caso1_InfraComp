@@ -10,7 +10,18 @@ public class BuzonReproceso {
     }
 
     public synchronized Producto retirarProducto() {
-        return productos.isEmpty() ? null : productos.removeFirst();
+        while(productos.isEmpty()){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        return productos.removeFirst();
+        //return productos.isEmpty() ? null : productos.removeFirst();
+    }
+    public synchronized boolean hayProductos(){
+        return !productos.isEmpty();
     }
 
 }

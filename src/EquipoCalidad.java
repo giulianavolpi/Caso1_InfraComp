@@ -28,6 +28,7 @@ public class EquipoCalidad extends Thread {
                 if (fallos < maxFallos && random.nextDouble() < 0.1) {
                     fallos++;
                     buzonReproceso.agregarProducto(producto);
+                    System.out.println("Producto rechazado y enviado a reproceso.");
                 } else {
                     deposito.agregarProducto(producto);
                 }

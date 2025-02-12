@@ -6,6 +6,7 @@ public class Deposito {
 
     public synchronized void agregarProducto(Producto producto) {
         productos.add(producto);
-    }
+        System.out.println("Producto aprobado y almacenado en el depósito.");
+    }   
 
 }
