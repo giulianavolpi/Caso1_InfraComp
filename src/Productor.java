@@ -51,8 +51,14 @@ class Productor extends Thread {
                     }
                     buzonRevision.agregarProducto(productoReprocesado); //reproceso
                 } else {
+                    synchronized(buzonRevision){// Esperea Activa: sigue verificando sin pausar el hilo
+                    while(!buzonRevision.hayEspacio()){
+                        buzonRevision.wait();
+                    }
                     buzonRevision.agregarProducto(new Producto(TipoProducto.NORMAL));//productos nuevos
                     producidos++;
+                }
+                    
                 }
             }
             

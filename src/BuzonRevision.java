@@ -25,4 +25,11 @@ class BuzonRevision {
         notifyAll();
         return producto;
     }
+    public synchronized boolean hayEspacio() {
+        return productos.size() < capacidad; // Retorna true si hay espacio disponible en el buzón
+    }
+    //diferentes ////////////////////////////////////////////////////////////////////////////////////////
+    public synchronized boolean estaVacio() {
+        return productos.isEmpty(); // Retorna true si el buzón está vacío
+    }
 }

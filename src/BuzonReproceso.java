@@ -17,7 +17,9 @@ public class BuzonReproceso {
                 Thread.currentThread().interrupt();
             }
         }
-        return productos.removeFirst();
+        Producto producto=productos.removeFirst();
+        notifyAll();
+        return producto;
         //return productos.isEmpty() ? null : productos.removeFirst();
     }
     public synchronized boolean hayProductos(){

@@ -19,7 +19,20 @@ public class EquipoCalidad extends Thread {
     public void run() {
         try {
             while (true) {
-                Producto producto = buzonRevision.retirarProducto();
+                //Producto producto = buzonRevision.retirarProducto();bloquea si esta vacio
+                Producto producto=null;
+                //Espera semi-activa
+                while(producto==null){
+                    synchronized(buzonRevision){
+                        if(!buzonRevision.estaVacio()){
+                            producto=buzonRevision.retirarProducto();
+                        }
+                    }
+                    if(producto==null){
+                        Thread.yield();
+                    }
+                }
+                
                 if (producto.getTipo() == TipoProducto.FIN) {
                     buzonReproceso.agregarProducto(producto);
                     break;
@@ -34,7 +47,7 @@ public class EquipoCalidad extends Thread {
                 }
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 }
