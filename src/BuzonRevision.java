@@ -14,6 +14,7 @@ class BuzonRevision {
             wait();
         }
         productos.add(producto);
+        System.out.println("[BuzonRevision] Producto agregado. Tamaño actual: " + productos.size());
         notifyAll();
     }
 
@@ -22,6 +23,7 @@ class BuzonRevision {
             wait();
         }
         Producto producto = productos.removeFirst();
+        System.out.println("[BuzonRevision] Producto retirado. Tamaño actual: " + productos.size());
         notifyAll();
         return producto;
     }

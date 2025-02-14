@@ -41,6 +41,7 @@ class Productor extends Thread {
                 synchronized(buzonReproceso){
                     if(buzonReproceso.hayProductos()){
                         productoReprocesado=buzonReproceso.retirarProducto();
+                        System.out.println("[Productor] Retirado producto reprocesado.");
                     }
                 }
 
@@ -50,12 +51,15 @@ class Productor extends Thread {
                         break;
                     }
                     buzonRevision.agregarProducto(productoReprocesado); //reproceso
+                    System.out.println("[Productor] Producto reprocesado enviado a revisión.");
                 } else {
                     synchronized(buzonRevision){// Esperea Activa: sigue verificando sin pausar el hilo
                     while(!buzonRevision.hayEspacio()){
                         buzonRevision.wait();
                     }
                     buzonRevision.agregarProducto(new Producto(TipoProducto.NORMAL));//productos nuevos
+                    System.out.println("[Productor] Producto nuevo generado y enviado a revisión.");
+                    producidos++;
                     producidos++;
                 }
                     
@@ -63,6 +67,7 @@ class Productor extends Thread {
             }
             
             buzonRevision.agregarProducto(new Producto(TipoProducto.FIN));
+            System.out.println("[Productor] Producto FIN enviado.");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -7,7 +7,8 @@ public class EquipoCalidad extends Thread {
     private int maxFallos;
     private int fallos = 0;
     private Random random = new Random();
-
+    private static int productosAprobados = 0;
+    
     public EquipoCalidad(BuzonRevision buzonRevision, BuzonReproceso buzonReproceso, Deposito deposito, int maxFallos) {
         this.buzonRevision = buzonRevision;
         this.buzonReproceso = buzonReproceso;
@@ -41,9 +42,15 @@ public class EquipoCalidad extends Thread {
                 if (fallos < maxFallos && random.nextDouble() < 0.1) {
                     fallos++;
                     buzonReproceso.agregarProducto(producto);
-                    System.out.println("Producto rechazado y enviado a reproceso.");
+                    System.out.println("[EquipoCalidad] Producto rechazado. Enviado a reproceso.");
                 } else {
                     deposito.agregarProducto(producto);
+                    productosAprobados++;
+                    if (productosAprobados >= maxFallos * 10) {
+                        buzonReproceso.agregarProducto(new Producto(TipoProducto.FIN));
+                        System.out.println("[EquipoCalidad] Se alcanzó la meta. Enviando FIN.");
+                        break;
+                    }
                 }
             }
         } catch (InterruptedException e) {

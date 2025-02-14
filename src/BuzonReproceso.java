@@ -6,6 +6,7 @@ public class BuzonReproceso {
 
     public synchronized void agregarProducto(Producto producto) {
         productos.add(producto);
+        System.out.println("[BuzonReproceso] Producto agregado. Tamaño actual: " + productos.size());
         notifyAll();
     }
 
@@ -18,6 +19,7 @@ public class BuzonReproceso {
             }
         }
         Producto producto=productos.removeFirst();
+        System.out.println("[BuzonReproceso] Producto retirado. Tamaño actual: " + productos.size());
         notifyAll();
         return producto;
         //return productos.isEmpty() ? null : productos.removeFirst();

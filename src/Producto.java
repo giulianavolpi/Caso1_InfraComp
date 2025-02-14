@@ -9,6 +9,7 @@ public class Producto {
 
     public Producto(TipoProducto tipo) {
         this.tipo = tipo;
+        System.out.println("[Producto] Creado un producto de tipo: " + tipo);
     }
 
     public TipoProducto getTipo() {
