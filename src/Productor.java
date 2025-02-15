@@ -41,34 +41,35 @@ class Productor extends Thread {
                 synchronized(buzonReproceso){
                     if(buzonReproceso.hayProductos()){
                         productoReprocesado=buzonReproceso.retirarProducto();
-                        System.out.println("[Productor] Retirado producto reprocesado.");
+                        System.out.println("[Productor] Retirado producto reprocesado ID " + productoReprocesado.getId());
                     }
                 }
 
                 if (productoReprocesado != null) {
                     if(productoReprocesado.getTipo()==TipoProducto.FIN){
                         System.out.println("[Productor] Recibido FIN. Terminando producción.");
-                        buzonReproceso.agregarProducto(productoReprocesado);//Reeviar para los otros producoters
-                        break;
+                        //buzonReproceso.agregarProducto(productoReprocesado);//Reeviar para los otros producoters
+                        return;
                     }
                     buzonRevision.agregarProducto(productoReprocesado); //reproceso
-                    System.out.println("[Productor] Producto reprocesado enviado a revisión.");
+                    System.out.println("[Productor] Producto reprocesado ID " + productoReprocesado.getId() + " enviado a revisión.");
                 } else {
                     synchronized(buzonRevision){// Esperea Activa: sigue verificando sin pausar el hilo
                     while(!buzonRevision.hayEspacio()){
                         buzonRevision.wait();
                     }
-                    buzonRevision.agregarProducto(new Producto(TipoProducto.NORMAL));//productos nuevos
-                    System.out.println("[Productor] Producto nuevo generado y enviado a revisión.");
+                    Producto nuevoProducto=new Producto(TipoProducto.NORMAL);
+                    buzonRevision.agregarProducto(nuevoProducto);//productos nuevos
+                    System.out.println("[Productor] Producto nuevo ID " + nuevoProducto.getId() + " generado y enviado a revisión.");
                     producidos++;
-                    producidos++;
+                    
                 }
                     
                 }
             }
-            
-            buzonRevision.agregarProducto(new Producto(TipoProducto.FIN));
-            System.out.println("[Productor] Producto FIN enviado.");
+            // Producto finProducto=new Producto(TipoProducto.FIN);
+            // buzonRevision.agregarProducto(finProducto);
+            // System.out.println("[Productor] Producto FIN ID " + finProducto.getId() + " enviado.");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -55,8 +55,10 @@ public class Main {
             System.out.println("[Main] Todos los productores han finalizado.");
 
             // Después de que todos los productores terminaron, enviar el producto FIN/Veneno
-            System.out.println("[Main] Enviando señal FIN a los equipos de calidad...");
-            buzonReproceso.agregarProducto(new Producto(TipoProducto.FIN));
+            System.out.println("[Main] Enviando señales FIN a los equipos de calidad...");
+            for (int i = 0; i < numOperarios; i++) {
+                buzonRevision.agregarProducto(new Producto(TipoProducto.FIN));
+            }
 
              // JOIN() ACABAR TODOS
             System.out.println("[Main] Esperando a que los equipos de calidad terminen...");
