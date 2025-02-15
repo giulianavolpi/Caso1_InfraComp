@@ -47,6 +47,7 @@ class Productor extends Thread {
 
                 if (productoReprocesado != null) {
                     if(productoReprocesado.getTipo()==TipoProducto.FIN){
+                        System.out.println("[Productor] Recibido FIN. Terminando producción.");
                         buzonReproceso.agregarProducto(productoReprocesado);//Reeviar para los otros producoters
                         break;
                     }

@@ -18,6 +18,8 @@ public class EquipoCalidad extends Thread {
 
     @Override
     public void run() {
+        System.out.println("[EquipoCalidad] Iniciando revisión...");
+
         try {
             while (true) {
                 //Producto producto = buzonRevision.retirarProducto();bloquea si esta vacio
@@ -26,7 +28,9 @@ public class EquipoCalidad extends Thread {
                 while(producto==null){
                     synchronized(buzonRevision){
                         if(!buzonRevision.estaVacio()){
+                            System.out.println("[EquipoCalidad] Intentando retirar un producto...");
                             producto=buzonRevision.retirarProducto();
+                            System.out.println("[EquipoCalidad] Producto retirado y en revisión.");
                         }
                     }
                     if(producto==null){
