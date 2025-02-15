@@ -42,7 +42,7 @@ public class EquipoCalidad extends Thread {
                 if (producto.getTipo() == TipoProducto.FIN) {
                     //buzonRevision.agregarProducto(producto);
                     System.out.println("[EquipoCalidad] Producto FIN ID " + producto.getId() + " recibido. Terminando...");
-                    return;
+                    break;
                 }
 
                 if (fallos < maxFallos && random.nextDouble() < 0.1) {
@@ -53,15 +53,7 @@ public class EquipoCalidad extends Thread {
                     deposito.agregarProducto(producto);
                     productosAprobados++;
                     System.out.println("[EquipoCalidad] Producto ID " + producto.getId() + " aprobado y enviado a depósito.");
-                    synchronized(EquipoCalidad.class){
-                    if (!finEnviado && productosAprobados >= maxFallos * 10) {
-                        finEnviado = true;
-                        Producto finProducto=new Producto(TipoProducto.FIN);
-                        //buzonReproceso.agregarProducto(finProducto);
-                        System.out.println("[EquipoCalidad] Se alcanzó la meta. Enviando FIN ID " + finProducto.getId());
-                        break;
-                    }
-                    }
+                    
                 }
             }
         } catch (InterruptedException e) {
